@@ -14,6 +14,6 @@ indent_style = tab
 indent_size = 4
 
 
-[{.travis.yml}]
+[{*.yml,*.yaml,.keen}]
 indent_style = space
 indent_size = 2
