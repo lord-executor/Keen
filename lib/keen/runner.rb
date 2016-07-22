@@ -1,9 +1,9 @@
-require("thor")
+require('thor')
 
 module Keen
 
 	class Runner < Thor
-		map "-v" => :version
+		map '-v' => :version
 
 		# Override Thor#help so it can give information about any command module
 		def help(meth = nil)
@@ -28,12 +28,41 @@ module Keen
 			#klass.start(args, :shell => shell)
 		end
 
-		desc "version", "Show Thor version"
+		desc 'version', 'Show Keen version'
+
 		def version
-			require("keen/version")
+			require('keen/version')
 			say("Keen #{Keen::VERSION}")
 		end
 
+		desc 'list', 'Lists available commands'
+
+		def list
+			keenDir = findCommandsDirectory()
+			if (keenDir)
+				puts("Using Keen dir #{keenDir}")
+			end
+
+		end
+
+		private
+
+		def findCommandsDirectory
+			oldDir = ''
+			searchDir = Dir.pwd
+
+			while (oldDir != searchDir)
+				keenDir = File.join(searchDir, '.keen')
+
+				if (Dir.exists?(keenDir))
+					return keenDir
+				end
+
+				puts(searchDir)
+				oldDir = searchDir
+				searchDir = File.expand_path(File.join(searchDir, '..'))
+			end
+		end
 	end
 
 end
