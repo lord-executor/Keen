@@ -1,20 +1,34 @@
-require('thor')
+require('keen/arguments/ArgumentParser')
 
 module Keen
 
-	class Runner < Thor
-		map '-v' => :version
+	class Runner
+
+		def self.start()
+			k = Class.new()
+		    k.class_eval do
+				define_method(:doit) { puts("doing IT") }
+			end
+
+		 	x = k.new()
+		 	x.doit()
+
+		 	ArgumentParser.parse(ARGV)
+		end
+		#default_task(:list)
+
+		#map '-v' => :version
 
 		# Override Thor#help so it can give information about any command module
 		def help(meth = nil)
-			if meth && !self.respond_to?(meth)
-				#initialize_thorfiles(meth)
-				#klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
-				#self.class.handle_no_command_error(command, false) if klass.nil?
-				#klass.start(["-h", command].compact, :shell => shell)
-			else
-				super
-			end
+			# if meth && !self.respond_to?(meth)
+			# 	#initialize_thorfiles(meth)
+			# 	#klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
+			# 	#self.class.handle_no_command_error(command, false) if klass.nil?
+			# 	#klass.start(["-h", command].compact, :shell => shell)
+			# else
+			# 	super
+			# end
 		end
 
 		# If a command is not found on Keen::Runner, method missing is invoked and
@@ -28,41 +42,36 @@ module Keen
 			#klass.start(args, :shell => shell)
 		end
 
-		desc 'version', 'Show Keen version'
+		#desc 'version', 'Show Keen version'
 
 		def version
 			require('keen/version')
 			say("Keen #{Keen::VERSION}")
 		end
 
-		desc 'list', 'Lists available commands'
+		#desc 'list', 'Lists available commands'
 
 		def list
-			keenDir = findCommandsDirectory()
-			if (keenDir)
-				puts("Using Keen dir #{keenDir}")
-			end
+			# keenDir = findCommandsDirectory()
+			# if (keenDir)
+			# 	puts("Using Keen dir #{keenDir}")
+			# end
+			#
+			# d = Dir.new(keenDir)
+			# d.each() do |name|
+			# 	path = File.join(keenDir, name)
+			# 	if (File.file?(path))
+			# 		puts("Loading thorfile #{path}")
+			# 		Thor::Util.load_thorfile(path, nil, nil)
+			# 	end
+			# end
+			#
+		 	# Thor::Base.subclasses.each() do |klazz|
+			# 	p(klazz)
+			# end
 
 		end
 
-		private
-
-		def findCommandsDirectory
-			oldDir = ''
-			searchDir = Dir.pwd
-
-			while (oldDir != searchDir)
-				keenDir = File.join(searchDir, '.keen')
-
-				if (Dir.exists?(keenDir))
-					return keenDir
-				end
-
-				puts(searchDir)
-				oldDir = searchDir
-				searchDir = File.expand_path(File.join(searchDir, '..'))
-			end
-		end
 	end
 
 end
