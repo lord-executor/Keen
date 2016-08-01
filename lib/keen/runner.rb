@@ -1,8 +1,9 @@
+require('keen/task')
 require('keen/arguments/ArgumentParser')
 
 module Keen
 
-	class Runner
+	class Runner < Task
 
 		def self.start()
 			k = Class.new()
@@ -44,6 +45,15 @@ module Keen
 
 		#desc 'version', 'Show Keen version'
 
+		command({
+			:desc => "show version information",
+			:opts => {
+				'test-on'.to_sym() => {
+					:type => :boolean,
+					:aliases => [:t],
+				},
+			},
+		})
 		def version
 			require('keen/version')
 			say("Keen #{Keen::VERSION}")
