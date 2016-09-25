@@ -12,6 +12,8 @@ module Keen
 		end
 
 		def initialize()
+			@eoo = false
+			@position = 0
 			@arguments = {}
 		end
 
@@ -22,7 +24,13 @@ module Keen
 
 		def processArgument(arg)
 			long = /^--([^=]+)(?:=(.*))?$/.match(arg)
-			if (long)
+
+			if (arg == '--')
+				@eoo = true
+				return
+			end
+
+			if (!@eoo && long)
 				name = long[1]
 				value = long[2]
 
@@ -44,6 +52,22 @@ module Keen
 						:type => :optarg,
 						:value => value,
 					}
+				end
+			else
+				short = /^-([a-zA-Z]+)$/.match(arg)
+				if (!@eoo && short)
+					short[1].each_char do |c|
+						@arguments[c] = {
+							:type => :option,
+							:value => true,
+						}
+					end
+				else
+					@arguments[@position] = {
+						:type => :argument,
+						:value => arg,
+					}
+					@position = @position + 1
 				end
 			end
 		end
