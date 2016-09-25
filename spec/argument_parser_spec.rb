@@ -60,6 +60,14 @@ describe Keen::ArgumentParser do
 		expect(args['opt-arg'][:value]).to eq 'Hello World'
 	end
 
+	it 'can parse optional argument array' do
+		args = Keen::ArgumentParser.parse(['--opt-array=Hello World', '--opt-array=42'])
+
+		expect(args.has_key?('opt-array')).to be true
+		expect(args['opt-array'][:type]).to be :optarg
+		expect(args['opt-array'][:value]).to eq ['Hello World', '42']
+	end
+
 	it 'can parse positional arguments' do
 		args = Keen::ArgumentParser.parse(['first', 'second'])
 

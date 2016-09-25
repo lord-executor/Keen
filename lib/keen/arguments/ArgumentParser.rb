@@ -34,7 +34,6 @@ module Keen
 			else
 				processPositional(arg)
 			end
-
 		end
 
 		def processLongOption(arg)
@@ -61,10 +60,19 @@ module Keen
 					:value => value,
 				}
 			else
-				@arguments[name] = {
-					:type => :optarg,
-					:value => value,
-				}
+				if (@arguments.has_key?(name))
+					existing = @arguments[name]
+					if (!existing[:value].kind_of?(Array))
+						existing[:value] = [existing[:value]]
+					end
+
+					existing[:value].push(value)
+				else
+					@arguments[name] = {
+						:type => :optarg,
+						:value => value,
+					}
+				end
 			end
 		end
 
