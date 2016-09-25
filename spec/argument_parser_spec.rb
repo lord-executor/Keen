@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'keen/arguments/ArgumentParser'
+require 'keen/arguments/ArgumentParseError'
 
 describe Keen::ArgumentParser do
 
@@ -19,12 +20,20 @@ describe Keen::ArgumentParser do
 		expect(args['option'][:value]).to be false
 	end
 
+	it 'raises error on invalid long option' do
+		expect { Keen::ArgumentParser.parse(['--=42']) }.to raise_error(Keen::ArgumentParseError)
+	end
+
 	it 'can parse short options' do
 		args = Keen::ArgumentParser.parse(['-o'])
 
 		expect(args.has_key?('o')).to be true
 		expect(args['o'][:type]).to be :option
 		expect(args['o'][:value]).to be true
+	end
+
+	it 'raises error on invalid short option' do
+		expect { Keen::ArgumentParser.parse(['-42']) }.to raise_error(Keen::ArgumentParseError)
 	end
 
 	it 'can parse multiple grouped short options' do
