@@ -1,3 +1,4 @@
+require('keen/arguments/Argument')
 require('keen/arguments/ArgumentParseError')
 
 module Keen
@@ -55,23 +56,12 @@ module Keen
 					value = false
 				end
 
-				@arguments[name] = {
-					:type => :option,
-					:value => value,
-				}
+				@arguments[name] = Argument.new(Argument::TYPE_OPTION, value)
 			else
 				if (@arguments.has_key?(name))
-					existing = @arguments[name]
-					if (!existing[:value].kind_of?(Array))
-						existing[:value] = [existing[:value]]
-					end
-
-					existing[:value].push(value)
+					@arguments[name].push_value(value)
 				else
-					@arguments[name] = {
-						:type => :optarg,
-						:value => value,
-					}
+					@arguments[name] = Argument.new(Argument::TYPE_OPTIONAL, value)
 				end
 			end
 		end
@@ -85,18 +75,12 @@ module Keen
 			end
 
 			short[1].each_char do |c|
-				@arguments[c] = {
-					:type => :option,
-					:value => true,
-				}
+				@arguments[c] = Argument.new(Argument::TYPE_OPTION, true)
 			end
 		end
 
 		def processPositional(arg)
-			@arguments[@position] = {
-				:type => :argument,
-				:value => arg,
-			}
+			@arguments[@position] = Argument.new(Argument::TYPE_POSITIONAL, arg)
 			@position += 1
 		end
 
