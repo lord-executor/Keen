@@ -1,2 +1,6 @@
-class CommandArguments
+module Keen
+
+	class CommandArguments
+	end
+
 end
