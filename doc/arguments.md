@@ -68,6 +68,11 @@ If an optional argument can also work as an option (with on/off value) or has a 
 ### Disambiguation
 The _stop parsing options_ argument `--` indicates the end of options, every argument following this option will be treated as a positional argument. This can / has to be used for example when a positional argument _value_ happens to start with one or two dashes (which would normally be interpreted as an option).
 
+### Multiple Options with the same Name
+Whenever the same option name is encountered multiple times, the behavior of the argument parser is as follows
+* For options, the last definition "wins", i.e. `--opt --no-opt` will result in `opt` being set to _false_.
+* For optional arguments and options with optional arguments, all encountered argument values are collected in an array that represents the overall argument value.
+
 
 ## Global Options
 These options must be supported by all commands. They provide a common API for inspecting commands.
