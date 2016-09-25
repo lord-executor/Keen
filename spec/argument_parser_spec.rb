@@ -48,7 +48,7 @@ describe Keen::ArgumentParser do
 
 		expect(args.has_key?('opt-arg')).to be true
 		expect(args['opt-arg'][:type]).to be :optarg
-		expect(args['opt-arg'][:value]).to be 'Hello World'
+		expect(args['opt-arg'][:value]).to eq 'Hello World'
 	end
 
 	it 'can parse positional arguments' do
@@ -56,11 +56,11 @@ describe Keen::ArgumentParser do
 
 		expect(args.has_key?(0)).to be true
 		expect(args[0][:type]).to be :argument
-		expect(args[0][:value]).to be 'first'
+		expect(args[0][:value]).to eq 'first'
 
 		expect(args.has_key?(1)).to be true
 		expect(args[1][:type]).to be :argument
-		expect(args[1][:value]).to be 'first'
+		expect(args[1][:value]).to eq 'second'
 	end
 
 	it 'can parse positional arguments after EOO (end of options)' do
@@ -68,11 +68,11 @@ describe Keen::ArgumentParser do
 
 		expect(args.has_key?(0)).to be true
 		expect(args[0][:type]).to be :argument
-		expect(args[0][:value]).to be '--first'
+		expect(args[0][:value]).to eq '--first'
 
 		expect(args.has_key?(1)).to be true
 		expect(args[1][:type]).to be :argument
-		expect(args[1][:value]).to be '-first'
+		expect(args[1][:value]).to eq '-second'
 	end
 
 end
