@@ -14,6 +14,8 @@ module Keen
 		 	x = k.new()
 		 	x.doit()
 
+		 	p(command_annotations)
+
 		 	ArgumentParser.parse(ARGV)
 		end
 		#default_task(:list)
