@@ -9,7 +9,10 @@ describe Keen::ArgumentParser do
 
 		command({ :bla => 'gurray' }) { |b|
 			b.description('Executes demo command')
-			b.option('demo-option', 'controls demo mode')
+			b.option('demo-option')
+				.banner('controls demo mode')
+				.default(true)
+				.alias('d')
 		}
 		def demo(args)
 		end

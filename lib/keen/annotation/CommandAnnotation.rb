@@ -1,29 +1,6 @@
+require('keen/annotation/CommandAnnotationBuilder')
 
 module Keen
-
-	class CommandAnnotationBuilder
-
-		attr_reader(:data)
-
-		def initialize()
-			@data = {
-				:args => {}
-			}
-		end
-
-		def description(short, long = nil)
-			@data[:desc_short] = short
-			@data[:desc_long] = long || short
-		end
-
-		def option(name, banner, short = nil)
-			@data[:args][name.to_sym()] = {
-				:banner => banner,
-				:aliases => [name]
-			}
-		end
-
-	end
 
 	module CommandAnnotation
 
