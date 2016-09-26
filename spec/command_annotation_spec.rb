@@ -7,9 +7,10 @@ describe Keen::ArgumentParser do
 
 		extend Keen::CommandAnnotation
 
-		command({
-			:bla => 'gurray'
-		})
+		command({ :bla => 'gurray' }) { |b|
+			b.description('Executes demo command')
+			b.option('demo-option', 'controls demo mode')
+		}
 		def demo(args)
 		end
 
