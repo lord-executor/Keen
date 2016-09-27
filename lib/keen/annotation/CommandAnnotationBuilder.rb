@@ -1,4 +1,5 @@
 require('keen/annotation/OptionBuilder')
+require('keen/annotation/OptArgBuilder')
 
 module Keen
 
@@ -14,7 +15,7 @@ module Keen
 			result = @data.clone
 
 			result[:args].each() do |key, value|
-				result[:args][key] = (value.kind_of?(OptionBuilder) ? value.data : value)
+				result[:args][key] = (value.kind_of?(ArgumentBuilder) ? value.data : value)
 			end
 
 			return result
@@ -27,6 +28,11 @@ module Keen
 
 		def option(name)
 			@data[:args][name.to_sym()] = OptionBuilder.new(name)
+			return @data[:args][name.to_sym()]
+		end
+
+		def optarg(name)
+			@data[:args][name.to_sym()] = OptArgBuilder.new(name)
 			return @data[:args][name.to_sym()]
 		end
 

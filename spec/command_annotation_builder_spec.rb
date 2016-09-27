@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'keen/annotation/CommandAnnotationBuilder'
 require 'keen/annotation/OptionBuilder'
+require('keen/annotation/ArgumentValueType')
 
 describe Keen::CommandAnnotationBuilder do
 
@@ -66,6 +67,53 @@ describe Keen::CommandAnnotationBuilder do
 		it 'can set add an alias' do
 			builder = Keen::CommandAnnotationBuilder.new()
 			builder.option('test-option').alias('t')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:aliases]).to eq ['test-option', 't']
+		end
+
+	end
+
+	describe Keen::OptArgBuilder do
+
+		it 'creates a default opt-arg' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.optarg('test-option')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:type]).to be :optarg
+			expect(option[:aliases]).to eq ['test-option']
+			expect(option[:value_type]).to be Keen::ArgumentValueType::STRING
+			expect(option[:default]).to be nil
+		end
+
+		it 'can set a banner' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.optarg('test-option').banner('banner')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:banner]).to eq 'banner'
+		end
+
+		it 'can set a description' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.optarg('test-option').description('description')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:desc]).to eq 'description'
+		end
+
+		it 'can set a default value' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.optarg('test-option').default('default')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:default]).to eq 'default'
+		end
+
+		it 'can set add an alias' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.optarg('test-option').alias('t')
 			option = builder.data[:args]['test-option'.to_sym()]
 
 			expect(option[:aliases]).to eq ['test-option', 't']

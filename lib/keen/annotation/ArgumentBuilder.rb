@@ -1,4 +1,4 @@
-require('keen/arguments/Argument')
+require('keen/arguments/ArgumentType')
 
 module Keen
 

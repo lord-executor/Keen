@@ -1,4 +1,4 @@
-require('keen/arguments/Argument')
+require('keen/arguments/ArgumentType')
 require('keen/annotation/ArgumentBuilder')
 
 module Keen
@@ -6,7 +6,7 @@ module Keen
 	class OptionBuilder < ArgumentBuilder
 
 		def initialize(name)
-			super(name, Argument::TYPE_OPTION)
+			super(name, ArgumentType::OPTION)
 			default(false)
 		end
 
