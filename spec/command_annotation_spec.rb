@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'keen/annotation/CommandAnnotation'
 
-describe Keen::ArgumentParser do
+describe Keen::CommandAnnotation do
 
 	class Dummy
 

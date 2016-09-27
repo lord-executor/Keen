@@ -1,15 +1,19 @@
+require('keen/arguments/Argument')
 
 module Keen
 
 	class OptionBuilder
 
-		attr_reader(:data)
-
 		def initialize(name)
 			@data = {
+				:type => Argument::TYPE_OPTION,
 				:aliases => [name],
 				:default => false
 			}
+		end
+
+		def data
+			return @data.clone()
 		end
 
 		def banner(banner)
