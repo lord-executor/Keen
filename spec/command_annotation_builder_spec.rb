@@ -39,6 +39,38 @@ describe Keen::CommandAnnotationBuilder do
 			expect(option[:default]).to be false
 		end
 
+		it 'can set a banner' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.option('test-option').banner('banner')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:banner]).to eq 'banner'
+		end
+
+		it 'can set a description' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.option('test-option').description('description')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:desc]).to eq 'description'
+		end
+
+		it 'can set a default value' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.option('test-option').default(true)
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:default]).to be true
+		end
+
+		it 'can set add an alias' do
+			builder = Keen::CommandAnnotationBuilder.new()
+			builder.option('test-option').alias('t')
+			option = builder.data[:args]['test-option'.to_sym()]
+
+			expect(option[:aliases]).to eq ['test-option', 't']
+		end
+
 	end
 
 end
