@@ -1,4 +1,4 @@
-require('keen/arguments/Argument')
+require('keen/arguments/CliArgument')
 require('keen/arguments/ArgumentType')
 require('keen/arguments/ArgumentParseError')
 
@@ -57,12 +57,12 @@ module Keen
 					value = false
 				end
 
-				@arguments[name] = Argument.new(ArgumentType::OPTION, value)
+				@arguments[name] = CliArgument.new(ArgumentType::OPTION, value)
 			else
 				if (@arguments.has_key?(name))
 					@arguments[name].push_value(value)
 				else
-					@arguments[name] = Argument.new(ArgumentType::OPTARG, value)
+					@arguments[name] = CliArgument.new(ArgumentType::OPTARG, value)
 				end
 			end
 		end
@@ -76,12 +76,12 @@ module Keen
 			end
 
 			short[1].each_char do |c|
-				@arguments[c] = Argument.new(ArgumentType::OPTION, true)
+				@arguments[c] = CliArgument.new(ArgumentType::OPTION, true)
 			end
 		end
 
 		def processPositional(arg)
-			@arguments[@position] = Argument.new(ArgumentType::POSITIONAL, arg)
+			@arguments[@position] = CliArgument.new(ArgumentType::POSITIONAL, arg)
 			@position += 1
 		end
 

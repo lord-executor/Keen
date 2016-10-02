@@ -1,19 +1,22 @@
-require 'spec_helper'
-require 'keen/annotation/CommandAnnotationBuilder'
-require 'keen/annotation/OptionBuilder'
-require('keen/annotation/ArgumentValueType')
+require('spec_helper')
+require('keen/metadata/CommandMetadata')
+require('keen/metadata/Option')
+require('keen/metadata/OptArg')
+require('keen/metadata/Positional')
+require('keen/metadata/ArgumentValueType')
+require('keen/arguments/ArgumentType')
 
-describe Keen::CommandAnnotationBuilder do
+describe Keen::CommandMetadata do
 
 	it 'creates an empty metadata set' do
-		builder = Keen::CommandAnnotationBuilder.new()
+		builder = Keen::CommandMetadata.new()
 
 		expect(builder.data).to be_a_kind_of(Hash)
 		expect(builder.data).to eq({ :args => {} })
 	end
 
 	it 'can add a command description' do
-		builder = Keen::CommandAnnotationBuilder.new()
+		builder = Keen::CommandMetadata.new()
 		builder.description('short', 'long')
 
 		expect(builder.data[:desc_short]).to eq 'short'
@@ -21,102 +24,84 @@ describe Keen::CommandAnnotationBuilder do
 	end
 
 	it 'can add an option' do
-		builder = Keen::CommandAnnotationBuilder.new()
+		builder = Keen::CommandMetadata.new()
 		builder.option('test-option')
 
 		expect(builder.data[:args]).to_not be_empty
-		expect(builder.data[:args]['test-option'.to_sym()]).to be_a_kind_of(Hash)
+		expect(builder.data[:args][:test_option]).to be_a_kind_of(Keen::Option)
 	end
 
-	describe Keen::OptionBuilder do
+
+	describe Keen::Option do
 
 		it 'creates a default option' do
-			builder = Keen::CommandAnnotationBuilder.new()
+			builder = Keen::CommandMetadata.new()
 			builder.option('test-option')
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:type]).to be :option
-			expect(option[:aliases]).to eq ['test-option']
-			expect(option[:default]).to be false
+			expect(option.type).to be Keen::ArgumentType::OPTION
+			expect(option.getAliases()).to eq ['test-option']
+			expect(option.getDefault()).to be false
 		end
 
 		it 'can set a banner' do
-			builder = Keen::CommandAnnotationBuilder.new()
+			builder = Keen::CommandMetadata.new()
 			builder.option('test-option').banner('banner')
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:banner]).to eq 'banner'
+			expect(option.getBanner()).to eq 'banner'
 		end
 
 		it 'can set a description' do
-			builder = Keen::CommandAnnotationBuilder.new()
+			builder = Keen::CommandMetadata.new()
 			builder.option('test-option').description('description')
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:desc]).to eq 'description'
+			expect(option.getDescription()).to eq 'description'
 		end
 
 		it 'can set a default value' do
-			builder = Keen::CommandAnnotationBuilder.new()
+			builder = Keen::CommandMetadata.new()
 			builder.option('test-option').default(true)
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:default]).to be true
+			expect(option.getDefault()).to be true
 		end
 
 		it 'can set add an alias' do
-			builder = Keen::CommandAnnotationBuilder.new()
+			builder = Keen::CommandMetadata.new()
 			builder.option('test-option').alias('t')
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:aliases]).to eq ['test-option', 't']
+			expect(option.getAliases).to eq ['test-option', 't']
 		end
 
 	end
 
-	describe Keen::OptArgBuilder do
 
-		it 'creates a default opt-arg' do
-			builder = Keen::CommandAnnotationBuilder.new()
+	describe Keen::OptArg do
+
+		it 'creates a default optarg' do
+			builder = Keen::CommandMetadata.new()
 			builder.optarg('test-option')
-			option = builder.data[:args]['test-option'.to_sym()]
+			option = builder.data[:args][:test_option]
 
-			expect(option[:type]).to be :optarg
-			expect(option[:aliases]).to eq ['test-option']
-			expect(option[:value_type]).to be Keen::ArgumentValueType::STRING
-			expect(option[:default]).to be nil
+			expect(option.type).to be Keen::ArgumentType::OPTARG
+			expect(option.getAliases()).to eq ['test-option']
+			expect(option.getDefault()).to be nil
 		end
 
-		it 'can set a banner' do
-			builder = Keen::CommandAnnotationBuilder.new()
-			builder.optarg('test-option').banner('banner')
-			option = builder.data[:args]['test-option'.to_sym()]
+	end
 
-			expect(option[:banner]).to eq 'banner'
-		end
+	describe Keen::Positional do
 
-		it 'can set a description' do
-			builder = Keen::CommandAnnotationBuilder.new()
-			builder.optarg('test-option').description('description')
-			option = builder.data[:args]['test-option'.to_sym()]
+		it 'creates a default positional' do
+			builder = Keen::CommandMetadata.new()
+			builder.positional()
+			option = builder.data[:args][0]
 
-			expect(option[:desc]).to eq 'description'
-		end
-
-		it 'can set a default value' do
-			builder = Keen::CommandAnnotationBuilder.new()
-			builder.optarg('test-option').default('default')
-			option = builder.data[:args]['test-option'.to_sym()]
-
-			expect(option[:default]).to eq 'default'
-		end
-
-		it 'can set add an alias' do
-			builder = Keen::CommandAnnotationBuilder.new()
-			builder.optarg('test-option').alias('t')
-			option = builder.data[:args]['test-option'.to_sym()]
-
-			expect(option[:aliases]).to eq ['test-option', 't']
+			expect(option.type).to be Keen::ArgumentType::POSITIONAL
+			expect(option.getDefault()).to be nil
 		end
 
 	end

@@ -2,7 +2,7 @@ require('keen/arguments/ArgumentType')
 
 module Keen
 
-	class Argument
+	class CliArgument
 
 		attr_reader(:type, :value)
 

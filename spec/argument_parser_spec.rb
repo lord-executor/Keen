@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'keen/arguments/Argument'
+require 'keen/arguments/CliArgument'
 require 'keen/arguments/ArgumentParser'
 require 'keen/arguments/ArgumentParseError'
 
@@ -7,6 +7,7 @@ describe Keen::ArgumentParser do
 
 	it 'can parse long options' do
 		args = Keen::ArgumentParser.parse(['--option'])
+		p(args)
 
 		expect(args.has_key?('option')).to be true
 		expect(args['option'].type).to be Keen::ArgumentType::OPTION

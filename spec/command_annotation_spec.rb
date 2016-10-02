@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'keen/annotation/CommandAnnotation'
+require 'keen/metadata/CommandAnnotation'
 
 describe Keen::CommandAnnotation do
 

@@ -1,4 +1,4 @@
-require('keen/annotation/CommandAnnotationBuilder')
+require('keen/metadata/CommandMetadata')
 
 module Keen
 
@@ -10,7 +10,7 @@ module Keen
 		def command(metadata, &block)
 			@@last = metadata
 
-			builder = CommandAnnotationBuilder.new()
+			builder = CommandMetadata.new()
 			block.call(builder)
 
 			@@last = builder.data
@@ -19,8 +19,7 @@ module Keen
 		def method_added(method)
 			puts("defining method #{method.inspect}")
 			@@_command_annotations[method] = @@last
-			p(@@last)
-			@@last = 42
+			@@last = nil
 		end
 
 		def command_annotations()

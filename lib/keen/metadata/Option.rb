@@ -1,12 +1,13 @@
 require('keen/arguments/ArgumentType')
-require('keen/annotation/ArgumentBuilder')
+require('keen/metadata/ArgumentValueType')
+require('keen/metadata/Argument')
 
 module Keen
 
-	class OptionBuilder < ArgumentBuilder
+	class Option < Argument
 
 		def initialize(name)
-			super(name, ArgumentType::OPTION)
+			super(name, ArgumentType::OPTION, ArgumentValueType::BOOLEAN)
 			default(false)
 		end
 
