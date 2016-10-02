@@ -1,4 +1,4 @@
-require('keen/metadata/CommandMetadata')
+require('keen/metadata/CommandArguments')
 
 module Keen
 
@@ -10,10 +10,10 @@ module Keen
 		def command(metadata, &block)
 			@@last = metadata
 
-			builder = CommandMetadata.new()
+			builder = CommandArguments.new()
 			block.call(builder)
 
-			@@last = builder.data
+			@@last = builder
 		end
 
 		def method_added(method)

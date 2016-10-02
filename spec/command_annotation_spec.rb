@@ -13,6 +13,9 @@ describe Keen::CommandAnnotation do
 				.banner('controls demo mode')
 				.default(true)
 				.alias('d')
+			b.optarg('opt-arg')
+				.banner('optional argument')
+				.default('42')
 		}
 		def demo(args)
 		end
@@ -24,7 +27,17 @@ describe Keen::CommandAnnotation do
 
 		expect(annotations).not_to be_empty
 		expect(annotations.has_key?(:demo)).to be true
-		p(annotations[:demo])
+
+		args = annotations[:demo]
+		p(args)
+
+		expect(args.respond_to?(:demo_option)).to be true
+		expect(args.demo_option).to be true
+		expect(args.respond_to?(:opt_arg)).to be true
+		expect(args.opt_arg).to eq '42'
+
+		args.opt_arg = 'test'
+		expect(args.opt_arg).to eq 'test'
 	end
 
 end

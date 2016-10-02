@@ -27,6 +27,14 @@ module Keen
 			return @data[:vtype]
 		end
 
+		def value()
+			return @value || getDefault()
+		end
+
+		def value=(v)
+			@value = v
+		end
+
 		def getBanner()
 			return @data[:banner]
 		end

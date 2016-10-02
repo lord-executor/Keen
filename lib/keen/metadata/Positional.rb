@@ -5,10 +5,12 @@ module Keen
 
 	class Positional < Argument
 
-		def initialize(index, valueType = ArgumentValueType::STRING)
-			super(index, ArgumentType::POSITIONAL, valueType)
-			@symbol = index
+		attr_reader(:position)
+		
+		def initialize(name, index, valueType = ArgumentValueType::STRING)
+			super(name, ArgumentType::POSITIONAL, valueType)
 			default(nil)
+			@position = index
 		end
 
 	end
