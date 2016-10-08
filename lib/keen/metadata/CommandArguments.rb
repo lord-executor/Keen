@@ -29,6 +29,10 @@ module Keen
 			return arg
 		end
 
+		def arguments()
+			return @data[:args]
+		end
+
 		def description(short, long = nil)
 			@data[:desc_short] = short
 			@data[:desc_long] = long || short

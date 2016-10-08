@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'keen/metadata/CommandAnnotation'
+require 'keen/task/TaskInvoker'
 
 describe Keen::CommandAnnotation do
 
@@ -18,6 +19,9 @@ describe Keen::CommandAnnotation do
 				.default('42')
 		}
 		def demo(args)
+			p('Executing demo command...')
+			p(args)
+			p('... DONE')
 		end
 
 	end
@@ -38,6 +42,8 @@ describe Keen::CommandAnnotation do
 
 		args.opt_arg = 'test'
 		expect(args.opt_arg).to eq 'test'
+
+		Keen::TaskInvoker::invoke(Dummy, :demo, ['--no-demo-option', '--opt-arg=55'])
 	end
 
 end
