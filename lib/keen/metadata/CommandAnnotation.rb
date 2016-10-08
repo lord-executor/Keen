@@ -12,7 +12,6 @@ module Keen
 		end
 
 		def method_added(method)
-			puts("defining method #{method.inspect}")
 			@@_annotation_blocks[method] = @@_last_block
 		end
 

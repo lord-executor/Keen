@@ -3,7 +3,6 @@ require('keen/metadata/CommandArguments')
 require('keen/metadata/Option')
 require('keen/metadata/OptArg')
 require('keen/metadata/Positional')
-require('keen/metadata/ArgumentValueType')
 require('keen/arguments/ArgumentType')
 
 describe Keen::CommandArguments do

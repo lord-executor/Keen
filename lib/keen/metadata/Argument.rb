@@ -1,5 +1,8 @@
 require('keen/arguments/ArgumentType')
-require('keen/metadata/ArgumentValueType')
+require('keen/metadata/ArgumentConverterFactory')
+require('keen/metadata/StringConverter')
+require('keen/metadata/DecimalConverter')
+require('keen/metadata/BooleanConverter')
 
 module Keen
 
@@ -7,12 +10,14 @@ module Keen
 
 		attr_reader(:data, :symbol)
 
-		def initialize(name, type, valueType = ArgumentValueType::STRING)
+		def initialize(name, type, valueType = :string)
 			@data = {
 				:type => type,
 				:aliases => [name],
 				:vtype => valueType,
 			}
+
+			@converter = ArgumentConverterFactory::get(valueType)
 
 			if (name.kind_of?(String))
 				@symbol = name.gsub(/[^0-9A-Za-z]/, '_').to_sym()
@@ -32,7 +37,7 @@ module Keen
 		end
 
 		def value=(v)
-			@value = v
+			@value = @converter.receive(v)
 		end
 
 		def getBanner()

@@ -7,7 +7,7 @@ module Keen
 
 		attr_reader(:position)
 		
-		def initialize(name, index, valueType = ArgumentValueType::STRING)
+		def initialize(name, index, valueType = :string)
 			super(name, ArgumentType::POSITIONAL, valueType)
 			default(nil)
 			@position = index

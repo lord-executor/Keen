@@ -7,7 +7,7 @@ module Keen
 
 			obj = clazz.new()
 			if (!obj.respond_to?(command))
-				raise Error.new("Task class #{clazz} does not contain a command '#{command}'")
+				raise ArgumentError.new("Task class #{clazz} does not contain a command '#{command}'")
 			end
 
 			parsedArgs = Keen::ArgumentParser.parse(args)

@@ -43,13 +43,13 @@ module Keen
 			return defineArgumentAccess(arg)
 		end
 
-		def optarg(name)
-			arg = OptArg.new(name)
+		def optarg(name, valueType = :string)
+			arg = OptArg.new(name, valueType)
 			return defineArgumentAccess(arg)
 		end
 
-		def positional(name)
-			arg = Positional.new(name, @position)
+		def positional(name, valueType = :string)
+			arg = Positional.new(name, @position, valueType)
 			@position += 1
 			
 			return defineArgumentAccess(arg)
