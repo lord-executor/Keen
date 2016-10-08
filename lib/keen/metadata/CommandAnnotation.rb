@@ -4,26 +4,23 @@ module Keen
 
 	module CommandAnnotation
 
-		@@last = nil
-		@@_command_annotations = {}
+		@@_last_block = nil
+		@@_annotation_blocks = {}
 
-		def command(metadata, &block)
-			@@last = metadata
-
-			builder = CommandArguments.new()
-			block.call(builder)
-
-			@@last = builder
+		def command(&block)
+			@@_last_block = block
 		end
 
 		def method_added(method)
 			puts("defining method #{method.inspect}")
-			@@_command_annotations[method] = @@last
-			@@last = nil
+			@@_annotation_blocks[method] = @@_last_block
 		end
 
-		def command_annotations()
-			@@_command_annotations
+		def get_args(method)
+			builder = CommandArguments.new()
+			@@_annotation_blocks[method].call(builder)
+
+			return builder
 		end
 
 	end

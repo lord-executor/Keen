@@ -8,7 +8,7 @@ describe Keen::CommandAnnotation do
 
 		extend Keen::CommandAnnotation
 
-		command({ :bla => 'gurray' }) { |b|
+		command { |b|
 			b.description('Executes demo command')
 			b.option('demo-option')
 				.banner('controls demo mode')
@@ -27,12 +27,7 @@ describe Keen::CommandAnnotation do
 	end
 
 	it 'adds metadata to methods' do
-		annotations = Dummy::command_annotations()
-
-		expect(annotations).not_to be_empty
-		expect(annotations.has_key?(:demo)).to be true
-
-		args = annotations[:demo]
+		args = Dummy::get_args(:demo)
 		p(args)
 
 		expect(args.respond_to?(:demo_option)).to be true

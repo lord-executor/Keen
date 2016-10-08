@@ -11,7 +11,7 @@ module Keen
 			end
 
 			parsedArgs = Keen::ArgumentParser.parse(args)
-			meta = clazz::command_annotations()[command]
+			meta = clazz::get_args(command)
 
 			meta.arguments.each() do |key, arg|
 				arg.getAliases().each() do |argAlias|
