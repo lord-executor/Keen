@@ -1,22 +1,13 @@
 require('keen/task')
 require('keen/arguments/ArgumentParser')
+require('keen/task/TaskInvoker')
 
 module Keen
 
 	class Runner < Task
 
 		def self.start()
-			k = Class.new()
-		    k.class_eval do
-				define_method(:doit) { puts("doing IT") }
-			end
-
-		 	x = k.new()
-		 	x.doit()
-
-		 	p(command_annotations)
-
-		 	ArgumentParser.parse(ARGV)
+			TaskInvoker.invoke(Runner, :version, ARGV)
 		end
 		#default_task(:list)
 
@@ -47,18 +38,15 @@ module Keen
 
 		#desc 'version', 'Show Keen version'
 
-		command({
-			:desc => "show version information",
-			:opts => {
-				'test-on'.to_sym() => {
-					:type => :boolean,
-					:aliases => [:t],
-				},
-			},
-		})
-		def version
+		command { |c|
+			c.description('show version information')
+			c.option('test')
+				.alias('t')
+		}
+		def version(args)
 			require('keen/version')
-			say("Keen #{Keen::VERSION}")
+			puts("Test mode ON") if args.test
+			puts("Keen #{Keen::VERSION}")
 		end
 
 		#desc 'list', 'Lists available commands'
@@ -78,7 +66,7 @@ module Keen
 			# 	end
 			# end
 			#
-		 	# Thor::Base.subclasses.each() do |klazz|
+			# Thor::Base.subclasses.each() do |klazz|
 			# 	p(klazz)
 			# end
 

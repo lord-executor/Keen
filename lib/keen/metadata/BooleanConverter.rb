@@ -5,7 +5,7 @@ module Keen
 
 	class BooleanConverter
 
-		ArgumentConverterFactory::register(:boolean, BooleanConverter)
+		ArgumentConverterFactory.register(:boolean, BooleanConverter)
 
 		def can_convert?(value)
 			return true

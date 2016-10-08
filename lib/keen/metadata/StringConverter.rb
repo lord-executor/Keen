@@ -5,7 +5,7 @@ module Keen
 
 	class StringConverter
 
-		ArgumentConverterFactory::register(:string, StringConverter)
+		ArgumentConverterFactory.register(:string, StringConverter)
 
 		def can_convert?(value)
 			return true

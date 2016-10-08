@@ -1,4 +1,4 @@
-require('keen/annotation/CommandAnnotation')
+require('keen/metadata/CommandAnnotation')
 
 class Task
 

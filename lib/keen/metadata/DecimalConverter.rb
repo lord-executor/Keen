@@ -5,7 +5,7 @@ module Keen
 
 	class DecimalConverter
 
-		ArgumentConverterFactory::register(:decimal, DecimalConverter)
+		ArgumentConverterFactory.register(:decimal, DecimalConverter)
 
 		def can_convert?(value)
 			return true
