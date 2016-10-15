@@ -1,3 +1,5 @@
+require('keen/arguments/ArgumentParser')
+require('keen/arguments/ArgumentType')
 
 module Keen
 
@@ -14,14 +16,31 @@ module Keen
 			meta = clazz::get_args(command)
 
 			meta.arguments.each() do |key, arg|
-				arg.getAliases().each() do |argAlias|
-					if (parsedArgs.has_key?(argAlias))
-						arg.value = parsedArgs[argAlias].value
+				matched = false
+
+				if (arg.type == ArgumentType::POSITIONAL)
+					if (parsedArgs.has_key?(arg.position))
+						matched = true
+						arg.value = parsedArgs[arg.position].value
+					end
+				else
+					# options and opt-args are not required
+					matched = true
+
+					arg.getAliases().each() do |argAlias|
+						if (parsedArgs.has_key?(argAlias))
+							arg.value = parsedArgs[argAlias].value
+						end
 					end
 				end
+
+				if (!matched)
+					raise ArgumentError.new("Unmatched required argument '#{arg.symbol}'")
+				end
+
 			end
 
-			obj.send(command, meta)
+			return obj.send(command, meta)
 		end
 
 	end
